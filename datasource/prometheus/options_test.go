@@ -5,8 +5,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/K-Phoen/grabana/errors"
 	"github.com/stretchr/testify/require"
+
+	"github.com/K-Phoen/grabana/errors"
 )
 
 func TestDefault(t *testing.T) {
@@ -112,6 +113,15 @@ func TestWithCertificate(t *testing.T) {
 	req.Equal(false, datasource.builder.JSONData.(map[string]interface{})["tlsSkipVerify"])
 	req.Equal(true, datasource.builder.JSONData.(map[string]interface{})["tlsAuthWithCACert"])
 	req.Equal("certificate-content", datasource.builder.SecureJSONData.(map[string]interface{})["tlsCACert"])
+}
+
+func TestWithTLSClientAuuth(t *testing.T) {
+	req := require.New(t)
+	datasource, err := New("", "", WithTLSClientAuth("cert-content", "key-content"))
+	req.NoError(err)
+	req.Equal(true, datasource.builder.JSONData.(map[string]interface{})["tlsAuth"])
+	req.Equal("cert-content", datasource.builder.SecureJSONData.(map[string]interface{})["tlsClientCert"])
+	req.Equal("key-content", datasource.builder.SecureJSONData.(map[string]interface{})["tlsClientKey"])
 }
 
 func TestWithCredentials(t *testing.T) {
