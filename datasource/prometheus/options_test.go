@@ -115,7 +115,7 @@ func TestWithCertificate(t *testing.T) {
 	req.Equal("certificate-content", datasource.builder.SecureJSONData.(map[string]interface{})["tlsCACert"])
 }
 
-func TestWithTLSClientAuuth(t *testing.T) {
+func TestWithTLSClientAuth(t *testing.T) {
 	req := require.New(t)
 	datasource, err := New("", "", WithTLSClientAuth("cert-content", "key-content"))
 	req.NoError(err)

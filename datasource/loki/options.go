@@ -55,6 +55,15 @@ func WithCertificate(certificate string) Option {
 	}
 }
 
+// WithTLSClientAuth sets the client tls keypair.
+func WithTLSClientAuth(certificate, key string) Option {
+	return func(datasource *Loki) {
+		datasource.builder.JSONData.(map[string]interface{})["tlsAuth"] = true
+		datasource.builder.SecureJSONData.(map[string]interface{})["tlsClientCert"] = certificate
+		datasource.builder.SecureJSONData.(map[string]interface{})["tlsClientKey"] = key
+	}
+}
+
 // WithCredentials joins credentials such as cookies or auth headers to cross-site requests.
 func WithCredentials() Option {
 	return func(datasource *Loki) {
